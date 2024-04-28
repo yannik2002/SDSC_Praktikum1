@@ -1,0 +1,14 @@
+.cer -> digital certificate that uses x.509 public key infrastructure standard
+.p12 -> password-protected PKCS12 keystore that contains a private key
+
+eigenes cert so erstellt:
+//
+openssl genrsa -out my-own-private-key.pem 2048
+
+openssl req -new -sha256 -key my-own-private-key.pem -out certificate-signed-request.csr
+password: password
+
+openssl req -x509 -sha256 -days 365 -key my-own-private-key.pem -in certificate-signed-request.csr -out myOwnCert.cer
+
+openssl pkcs12 -export -name myOwn -out myOwnKeyStore.p12 -inkey my-own-private-key.pem -in myOwnCert.cer -passout pass:password
+//
