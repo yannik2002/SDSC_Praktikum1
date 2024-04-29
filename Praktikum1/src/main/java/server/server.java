@@ -47,30 +47,30 @@ public class server {
         char[] myOwnKeyStorePassword = "password".toCharArray();
         char[] myOwnKeyPassword = "password".toCharArray();
         X509Certificate myOwnCertificate = (X509Certificate) certFactory
-                .generateCertificate(new FileInputStream("src/main/java/certs/myOwnCert.cer"));
+                .generateCertificate(new FileInputStream("Praktikum1/src/main/java/certs/myOwnCert.cer"));
         KeyStore myKeyStore = KeyStore.getInstance("PKCS12");
-        myKeyStore.load(new FileInputStream("src/main/java/certs/myOwnKeyStore.p12"), myOwnKeyStorePassword);
+        myKeyStore.load(new FileInputStream("Praktikum1/src/main/java/certs/myOwnKeyStore.p12"), myOwnKeyStorePassword);
         PrivateKey myOwnPrivateKey = (PrivateKey) myKeyStore.getKey("myOwn", myOwnKeyPassword);
 
 
 
         X509Certificate certificate = (X509Certificate) certFactory
-                .generateCertificate(new FileInputStream("src/main/java/certs/FH.cer"));
+                .generateCertificate(new FileInputStream("Praktikum1/src/main/java/certs/FH.cer"));
         X509Certificate signingCertificate = (X509Certificate) certFactory
-                .generateCertificate(new FileInputStream("src/main/java/certs/signing_cert.cer"));
+                .generateCertificate(new FileInputStream("Praktikum1/src/main/java/certs/signing_cert.cer"));
         X509Certificate signingCertificate1 = (X509Certificate) certFactory
-                .generateCertificate(new FileInputStream("src/main/java/certs/signing_cert1.cer"));
+                .generateCertificate(new FileInputStream("Praktikum1/src/main/java/certs/signing_cert1.cer"));
 
         KeyStore keystore = KeyStore.getInstance("PKCS12");
-        keystore.load(new FileInputStream("src/main/java/certs/FH.p12"), keystorePassword);
+        keystore.load(new FileInputStream("Praktikum1/src/main/java/certs/FH.p12"), keystorePassword);
         PrivateKey privateKey = (PrivateKey) keystore.getKey("FH", keyPassword);
 
         KeyStore signingKeystore = KeyStore.getInstance("PKCS12");
-        signingKeystore.load(new FileInputStream("src/main/java/certs/signing_cert.p12"), signingKeystorePassword);
+        signingKeystore.load(new FileInputStream("Praktikum1/src/main/java/certs/signing_cert.p12"), signingKeystorePassword);
         PrivateKey signingPrivateKey = (PrivateKey) signingKeystore.getKey("EFFHA", signingKeyPassword);
 
         KeyStore signingKeystore1 = KeyStore.getInstance("PKCS12");
-        signingKeystore1.load(new FileInputStream("src/main/java/certs/signing_cert1.p12"), signingKeystorePassword);
+        signingKeystore1.load(new FileInputStream("Praktikum1/src/main/java/certs/signing_cert1.p12"), signingKeystorePassword);
         PrivateKey signingPrivateKey1 = (PrivateKey) signingKeystore1.getKey("EFFHA", signingKeyPassword);
 
         telnetServer.registerCommand("echo", new Command() {

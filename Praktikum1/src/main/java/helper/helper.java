@@ -38,19 +38,19 @@ public class helper {
         char[] keyPassword = "IchBinNeu0".toCharArray();
         CertificateFactory certFactory = CertificateFactory.getInstance("X.509", "BC");
         X509Certificate cryptoCertificate = (X509Certificate) certFactory
-                .generateCertificate(new FileInputStream("src/main/java/certs/FH.cer"));
+                .generateCertificate(new FileInputStream("Praktikum1/src/main/java/certs/FH.cer"));
 
         KeyStore keystore = KeyStore.getInstance("PKCS12");
-        keystore.load(new FileInputStream("src/main/java/certs/FH.p12"), keystorePassword);
+        keystore.load(new FileInputStream("Praktikum1/src/main/java/certs/FH.p12"), keystorePassword);
         PrivateKey privateKey = (PrivateKey) keystore.getKey("FH", keyPassword);
 
         // Einbinden von meinem eigenen Cert
         char[] myOwnKeyStorePassword = "password".toCharArray();
         char[] myOwnKeyPassword = "password".toCharArray();
         X509Certificate myOwnCertificate = (X509Certificate) certFactory
-                .generateCertificate(new FileInputStream("src/main/java/certs/myOwnCert.cer"));
+                .generateCertificate(new FileInputStream("Praktikum1/src/main/java/certs/myOwnCert.cer"));
         KeyStore myKeyStore = KeyStore.getInstance("PKCS12");
-        myKeyStore.load(new FileInputStream("src/main/java/certs/myOwnKeyStore.p12"), myOwnKeyStorePassword);
+        myKeyStore.load(new FileInputStream("Praktikum1/src/main/java/certs/myOwnKeyStore.p12"), myOwnKeyStorePassword);
         PrivateKey myOwnPrivateKey = (PrivateKey) myKeyStore.getKey("myOwn", myOwnKeyPassword);
 
         do {
@@ -64,12 +64,11 @@ public class helper {
             System.out.println("6) Add two comma-separated numbers");
             System.out.println("7) Show certificate details of hex-encoded signed message");
             System.out.println("8) Verify signature of hex-encoded message");
-
-            choice = Integer.parseInt(System.console().readLine());
+            Scanner scanner = new Scanner(System.in);
+            choice = Integer.parseInt(scanner.nextLine());
             if (choice < 0 || choice > 8) {
                 System.out.println("Please choose a valid entry!");
             } else {
-                Scanner scanner = new Scanner(System.in);
                 BigInteger result = new BigInteger("0");
                 BigInteger sum = new BigInteger("0");
                 byte[] encryptedResponse = null;
@@ -98,7 +97,7 @@ public class helper {
                     // 3) result wird in hex umgewandelt und ausgegeben
                     case 2:
                         System.out.println("Please enter the result: ");
-                        result = new BigInteger(System.console().readLine());
+                        result = new BigInteger(scanner.nextLine());
 
                         /* Hier code einfügen */
                         psk = new BigInteger("1337");
@@ -119,7 +118,7 @@ public class helper {
                         System.out.println("Please enter a base64-encrypted challenge: ");
                         
                         /* Hier code einfügen */
-                        base64EncryptedResponse = System.console().readLine();
+                        base64EncryptedResponse = scanner.nextLine();
                         encryptedResponse = Base64.getDecoder().decode(base64EncryptedResponse);
                         decryptedRawChallenge = decryptData(encryptedResponse, privateKey);
 
@@ -138,7 +137,7 @@ public class helper {
                         System.out.println("4) Decrypt a hex-encoded message");
                         
                         /* Hier code einfügen */
-                        response = System.console().readLine().getBytes();
+                        response = scanner.nextLine().getBytes();
                         encryptedResponse = Hex.decode(response);
                         decryptedRawChallenge = decryptData(encryptedResponse,myOwnPrivateKey);
 
@@ -199,7 +198,7 @@ public class helper {
                     // Erweitert: gibt das result auch in Base64 und encrypted aus
                     case 6:
                         System.out.println("Please enter two comma-separated numbers: ");
-                        String numbersString = System.console().readLine();
+                        String numbersString = scanner.nextLine();
                         String[] numbersArray = numbersString.split(",");
                         BigInteger first = new BigInteger(numbersArray[0]);
                         BigInteger second = new BigInteger(numbersArray[1]);
@@ -219,7 +218,7 @@ public class helper {
                     // Show certificate details of signed hex-encoded message
                     case 7:
                         System.out.println("Please enter hex-encoded message: ");
-                        message = Hex.decode(System.console().readLine());
+                        message = Hex.decode(scanner.nextLine());
                         System.out.println();
                         System.out.println(getCertInfoFromMessage(message));
                         System.out.println();
@@ -227,7 +226,7 @@ public class helper {
                     // Verify signature of hex-encoded message
                     case 8:
                         System.out.println("Please enter hex-encoded message: ");
-                        message = Hex.decode(System.console().readLine());
+                        message = Hex.decode(scanner.nextLine());
                         boolean valid = verifySignData(message);
                         System.out.println();
                         System.out.println("Signature is " + (valid ? "valid" : "invalid"));
